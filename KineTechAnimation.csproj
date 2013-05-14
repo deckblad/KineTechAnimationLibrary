@@ -82,7 +82,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"Z:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\pdb2mdb.exe" $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>COPY "C:\KSPDEV\Plugins\KineTechAnimation.dll" "Z:\Users\KineMorto\Desktop\KineTech\KineTechAnimation\KineTechAnimationLibrary\Binaries"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
