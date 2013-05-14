@@ -10,9 +10,9 @@ using System.Reflection;
 /// is attached to our part.
 /// </summary>
 [KPartModuleConfigurationDocumentation(
-"\n\\Value is the amount of thrust currently"+
-"\n\\being produced by the ModuleEngines that" +
-"\n\\is attached to our part.")]
+"\n//Value is the amount of thrust currently" +
+"\n//being produced by the ModuleEngines that" +
+"\n//is attached to our part.")]
 [KRequiresModule(typeof(ModuleEngines))]
 public class KModuleAnimateThrust : KModuleAnimateValue
 {
