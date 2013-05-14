@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=true)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=true)]
 public class KRequiresModuleAttribute : System.Attribute
 {
     public readonly Type RequiredType;
@@ -26,21 +26,30 @@ public class KRequiresModuleAttribute : System.Attribute
         if(objs.Length != 1)
             return false;
 
-        KRequiresModuleAttribute attr =  objs[0] as KRequiresModuleAttribute;
+        KRequiresModuleAttribute[] attr =  objs as KRequiresModuleAttribute[];
 
         if(attr == null)
             return false;
 
-
-        foreach (PartModule current in animate.part.Modules)
+        foreach(KRequiresModuleAttribute cAttr in attr)
         {
-            if (current.GetType().UnderlyingSystemType != attr.RequiredType)
-                continue;
+            bool check = false;
+            
+            foreach(PartModule current in animate.part.Modules)
+            {
+                if(current.GetType().UnderlyingSystemType != cAttr.RequiredType)
+                    continue;
 
-            return true;
+
+                check = true;
+                break;
+            }
+
+            if(!check)
+                return false;
         }
 
-        return false;
+        return true;
     }
 }
 

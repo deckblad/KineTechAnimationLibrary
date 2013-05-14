@@ -3,21 +3,35 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
+/// <summary>
+/// Animates based on: 'KSP.FlightGlobals.ship_tgtSpeed'. 
+/// If target is lost/deselected, and interpolation is 
+/// not active the value will jump back to 0.0f.
+/// </summary>
+[KPartModuleConfigurationDocumentation(
+"\n//Animates based on: 'KSP.FlightGlobals.ship_tgtSpeed'. " +
+"\n//If target is lost/deselected, and interpolation is " +
+"\n//not active the value will jump back to 0.0f.")]
 public class KModuleAnimateTargetSpeed : KModuleAnimateValue
 {
-    [KSPFieldDebug("LastNormalTime", isPersistant = true)]
-    public float LastNormalTime = 0;
-
-    [KSPFieldDebug("LerpDamp")]
-    public float LerpDampening = 1;
-
     protected override float SolveNormalTime()
     {
-        LastNormalTime =
-            Mathf.Lerp(
-                LastNormalTime,
-                Mathf.Clamp01((float)(FlightGlobals.ship_tgtSpeed - MinValue) / _Denominator),
-                Time.deltaTime * LerpDampening);
-        return LastNormalTime;
+        if(FlightGlobals.fetch == null)
+            return 0f;
+
+        if(this.vessel != FlightGlobals.ActiveVessel)
+            return LastNormalTime;
+
+        if(FlightGlobals.fetch.VesselTarget == null)
+            return 0f;
+
+        return (float)((FlightGlobals.ship_tgtSpeed - MinValue) / _Denominator);
+    }
+
+    protected override void UpdateModule()
+    {
+        base.UpdateModule();
+
+        this.IsLocked = this.vessel != FlightGlobals.ActiveVessel;
     }
 }

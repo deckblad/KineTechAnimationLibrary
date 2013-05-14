@@ -4,11 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-
+/// <summary>
+/// Value is the amount of thrust currently
+/// being produced by the ModuleEngines that
+/// is attached to our part.
+/// </summary>
+[KPartModuleConfigurationDocumentation(
+"\n\\Value is the amount of thrust currently"+
+"\n\\being produced by the ModuleEngines that" +
+"\n\\is attached to our part.")]
 [KRequiresModule(typeof(ModuleEngines))]
 public class KModuleAnimateThrust : KModuleAnimateValue
 {
-    [KConfigDocumentation("True", "When True, the maximum thrust of the engine will be used as MaxValue; otherwise False.")]
+    [KPartModuleFieldConfigurationDocumentation("True", "When True, the maximum thrust of the engine will be used as MaxValue; otherwise False.")]
     [KSPFieldDebug("UseMaxThrust", false, isPersistant=true)]
     public bool UseMaxThrust = true;
     

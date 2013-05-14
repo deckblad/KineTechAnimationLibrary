@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>C:\KSPDEV\Plugins\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_ANIM_VALUE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DOCS_TO_REPOSITORY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -52,7 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Attributes\KPartModuleConfigurationDocumentationAttribute.cs" />
     <Compile Include="Modules\AnimateValue\KModuleAnimateSolarCharge.cs" />
+    <Compile Include="Modules\AnimateValue\KModuleAnimateSurfaceHeight.cs" />
+    <Compile Include="Modules\AnimateValue\KModuleAnimateTargetDistance.cs" />
+    <Compile Include="Modules\AnimateValue\KModuleAnimateTargettedDistance.cs" />
+    <Compile Include="Modules\AnimateValue\KModuleAnimateTargettedSpeed.cs" />
     <Compile Include="Modules\AnimateValue\ModuleEngine\KModuleAnimateThrust.cs" />
     <Compile Include="Modules\AnimateValue\ModuleResourceIntake\KModuleAnimateIntakeAir.cs" />
     <Compile Include="Modules\AnimateValue\ModuleResourceIntake\KModuleAnimateAirSpeed.cs" />
@@ -65,11 +70,11 @@
     <Compile Include="Modules\AnimateValue\KModuleAnimateStaticPressure.cs" />
     <Compile Include="Modules\AnimateValue\KModuleAnimateSurfaceSpeed.cs" />
     <Compile Include="Modules\AnimateValue\KModuleAnimateTargetSpeed.cs" />
-    <Compile Include="Core\Attributes\KConfigDocumentationAttribute.cs" />
+    <Compile Include="Core\Attributes\KPartModuleFieldConfigurationDocumentationAttribute.cs" />
     <Compile Include="Core\KConfigDocumentationGenerator.cs" />
     <Compile Include="Core\Attributes\KSPFieldDebug.cs" />
     <Compile Include="Core\KineTechAnimationModuleLoader.cs" />
-    <Compile Include="Core\KModuleAnimate.cs" />
+    <Compile Include="KModuleAnimate.cs" />
     <Compile Include="Modules\KModuleAnimateValue.cs" />
     <Compile Include="Modules\AnimateValue\KModuleAnimateVerticalSpeed.cs" />
     <Compile Include="Core\KRequiresModuleAttribute.cs" />
