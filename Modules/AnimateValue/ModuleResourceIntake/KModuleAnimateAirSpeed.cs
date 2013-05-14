@@ -9,8 +9,8 @@ using UnityEngine;
 /// into the ModuleResourceIntake on our part.
 /// </summary>
 [KPartModuleConfigurationDocumentation(
-"\n\\Value is the speed of the air flowing " +
-"\n\\into the ModuleResourceIntake on our part.")]
+"\n//Value is the speed of the air flowing " +
+"\n//into the ModuleResourceIntake on our part.")]
 [KRequiresModule(typeof(ModuleResourceIntake))]
 public class KModuleAnimateAirSpeed : KModuleAnimateValue
 {
