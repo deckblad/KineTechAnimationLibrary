@@ -22,7 +22,21 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
         "\n\t//When open and the player closes the intake it will be interpolated to 0 value." +
         "\n\t//If set to False, animation will be evaluated regardless of intake state.")]
     [KSPFieldDebug("IntakeMustBeOpen")]
-    public bool IntakeMustBeOpen = false;
+    public bool IntakeMustBeOpen = true;
+
+    [KPartModuleFieldConfigurationDocumentation(
+        "True",
+        "When True, the Normalized Animation Time will interpolate back to 0 when there is no" +
+        "\n\t//atomosphere flowing through the intake; otherwise will update as normal.")]
+    [KSPFieldDebug("RequireAtomosphere")]
+    public bool RequireAtomosphericFlow = true;
+
+    [KPartModuleFieldConfigurationDocumentation(
+        "0.01",
+        "The flow value at which the Normalized Animation time will round off to zero and " +
+        "\n\t//the intakes will close.")]
+    [KSPFieldDebug("FlowThreshold")]
+    public float FlowThreshold = 0.01f;
 
     #endregion
 
@@ -32,6 +46,11 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
     /// ModuleResourceIntake.airSpeedGui
     /// </summary>
     private FieldInfo _AirSpeed;
+
+    /// <summary>
+    /// ModuleRecoucrceIntake.airFlow
+    /// </summary>
+    private FieldInfo _AirFlow;
 
     /// <summary>
     /// ModuleResourceIntake.intakeEnabled
@@ -53,7 +72,7 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
         get
         {
             return _AirSpeed != null && _Intake != null ?
-                (double)_AirSpeed.GetValue(_Intake) :
+                (float)_AirSpeed.GetValue(_Intake) :
                 0;
         }
     }
@@ -74,7 +93,9 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
 
             _Intake = current as ModuleResourceIntake;
             _AirSpeed = _Intake.GetType().GetField("airSpeedGui");
+            _AirFlow = _Intake.GetType().GetField("airFlow");
             _IntakeOpen = _Intake.GetType().GetField("intakeEnabled");
+
             break;
         }
 
@@ -85,7 +106,30 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
 
     protected override float SolveNormalTime()
     {
-        return (float)((AirSpeed - MinValue) / _Denominator);
+        float result = (float)((AirSpeed - MinValue) / _Denominator);
+        bool intakeOpen = ((bool)_IntakeOpen.GetValue(_Intake));
+        bool airIsFlowing = ((float)_AirFlow.GetValue(_Intake)) > 0;
+
+        if(RequireAtomosphericFlow)
+            result = FlowThreshold > result ? 0 : result;
+
+        if(IntakeMustBeOpen)
+        {
+            if(RequireAtomosphericFlow)
+            {
+                return intakeOpen && airIsFlowing ? result : 0;
+            }
+            else
+            {
+                return intakeOpen ? result : 0;
+            }
+        }
+        else if(RequireAtomosphericFlow)
+        {
+            return airIsFlowing ? result : 0;
+        }
+
+        return result;
     }
 
     #endregion
