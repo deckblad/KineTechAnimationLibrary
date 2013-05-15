@@ -27,9 +27,9 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
     [KPartModuleFieldConfigurationDocumentation(
         "True",
         "When True, the Normalized Animation Time will interpolate back to 0 when there is no" +
-        "\n\t//atomosphere flowing through the intake; otherwise will update as normal.")]
-    [KSPFieldDebug("RequireAtomosphere")]
-    public bool RequireAtomosphericFlow = true;
+        "\n\t//atmosphere flowing through the intake; otherwise will update as normal.")]
+    [KSPFieldDebug("RequireAtmosphere")]
+    public bool RequireAtmosphericFlow = true;
 
     [KPartModuleFieldConfigurationDocumentation(
         "0.01",
@@ -107,15 +107,20 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
     protected override float SolveNormalTime()
     {
         float result = (float)((AirSpeed - MinValue) / _Denominator);
+
+        result = FlowThreshold > result ? 0 : result;
+
+        if(result == 0f)
+            return result;
+
         bool intakeOpen = ((bool)_IntakeOpen.GetValue(_Intake));
         bool airIsFlowing = ((float)_AirFlow.GetValue(_Intake)) > 0;
 
-        if(RequireAtomosphericFlow)
-            result = FlowThreshold > result ? 0 : result;
+        
 
         if(IntakeMustBeOpen)
         {
-            if(RequireAtomosphericFlow)
+            if(RequireAtmosphericFlow)
             {
                 return intakeOpen && airIsFlowing ? result : 0;
             }
@@ -124,7 +129,7 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
                 return intakeOpen ? result : 0;
             }
         }
-        else if(RequireAtomosphericFlow)
+        else if(RequireAtmosphericFlow)
         {
             return airIsFlowing ? result : 0;
         }
