@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>C:\KSPDEV\Plugins\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DOCS_TO_REPOSITORY</DefineConstants>
+    <DefineConstants>TRACE;DOCS_TO_REPOSITORY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
