@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-/// <summary>
+﻿/// <summary>
 /// Animates base on: 'this.vessel.geeForce'
 /// Value is the part's current vessel's G-force.
 /// </summary>
