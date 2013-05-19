@@ -218,7 +218,6 @@ public abstract class KModuleAnimate : PartModule
     /// <summary>
     /// Allows the child to update itself every frame
     /// </summary>
-    /// <param name="normalTime">The normalized time of the animation to modify.</param>
     protected abstract void UpdateModule();
 
     /// <summary>
