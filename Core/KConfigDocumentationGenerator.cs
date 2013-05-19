@@ -242,7 +242,7 @@ public class KConfigDocumentationGenerator : MonoBehaviour
 #else
         //Get the filepath of our data sandbox
         string searchsString = "SEARCHSTRING.txt";
-        string root = IOUtils.GetFilePathFor(typeof(KineTechAnimationModuleLoader), searchsString);
+        string root = KSP.IO.IOUtils.GetFilePathFor(typeof(KineTechAnimationModuleLoader), searchsString);
         root = root.Replace(searchsString, string.Empty);
 #endif
 
@@ -265,7 +265,7 @@ public class KConfigDocumentationGenerator : MonoBehaviour
                 string fileName;
                 if(GetFileNameFor(root, assembly, current, out fileName))
 #if !DEBUG
-                    File.WriteAllText<KineTechAnimationModuleLoader>(
+                    KSP.IO.File.WriteAllText<KineTechAnimationModuleLoader>(
                         working.ToString(), 
                         string.Concat(fileName));   
 #else

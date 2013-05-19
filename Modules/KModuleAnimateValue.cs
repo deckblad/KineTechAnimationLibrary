@@ -40,7 +40,7 @@ public abstract class KModuleAnimateValue : KModuleAnimate
     [KPartModuleFieldConfigurationDocumentation(
         "0", 
         "The minimum value at which the animation will begin interpolating.")]
-    [KSPFieldDebug("Min", isPersistant=true)]
+    [KSPFieldDebug("Min")]
     public float MinValue = 0;
 
     /// <summary>
@@ -49,7 +49,7 @@ public abstract class KModuleAnimateValue : KModuleAnimate
     [KPartModuleFieldConfigurationDocumentation(
         "1", 
         "The value at which the animation will complete its interpolation.")]
-    [KSPFieldDebug("Max", isPersistant = true)]
+    [KSPFieldDebug("Max")]
     public float MaxValue = 1;
 
     /// <summary>
@@ -60,7 +60,7 @@ public abstract class KModuleAnimateValue : KModuleAnimate
         "True", 
         "When set to False, once the animation has reached the maximum" 
         + "\n\t//value it becomes locked.")]
-    [KSPFieldDebug("CanDescendAfterMax?", isPersistant = true)]
+    [KSPFieldDebug("CanDescendAfterMax?")]
     public bool CanDescendAfterMax = true;
 
     #endregion
@@ -71,7 +71,7 @@ public abstract class KModuleAnimateValue : KModuleAnimate
     /// When TRUE, the animation is complete, CanDescendAfterMax == false, 
     /// and animation is locked at 1.0f;
     /// </summary>
-    [KSPFieldDebug("IsMaxLocked?", isPersistant = true)]
+    [KSPFieldDebug("IsMaxLocked?")]
     public bool IsMaxLocked = false;
 
     #endregion

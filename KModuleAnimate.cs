@@ -28,7 +28,7 @@ public abstract class KModuleAnimate : PartModule
     [KPartModuleFieldConfigurationDocumentation(
         "nameOfAnimation", 
         "The name of the animation to be played with this module.")]
-    [KSPFieldDebug("AnimationName", isPersistant=true)]
+    [KSPFieldDebug("AnimationName")]
     public string AnimationName = string.Empty;
 
     /// <summary>
@@ -37,7 +37,7 @@ public abstract class KModuleAnimate : PartModule
     [KPartModuleFieldConfigurationDocumentation(
         "False", 
         "When True the animation will be played in reverse.")]
-    [KSPFieldDebug("PlayInReverse", isPersistant = true)]
+    [KSPFieldDebug("PlayInReverse")]
     public bool PlayInReverse = false;
 
     /// <summary>
@@ -59,7 +59,7 @@ public abstract class KModuleAnimate : PartModule
         "When TRUE, the Normalized Animation Time of the module is" +
         "\n\t//interpolated between frames based on the 'LerpDampening'" +
         "\n\t//value.")]
-    [KSPFieldDebug("UseInterpolation?", isPersistant = true)]
+    [KSPFieldDebug("UseInterpolation?")]
     public bool UseInterpolation = true;
 
     /// <summary>
@@ -74,7 +74,7 @@ public abstract class KModuleAnimate : PartModule
         "\n\t//the speed our animation is played when interpolating, " +
         "\n\t//as large changes in the normalized time could result in" +
         "\n\t//undesired playback.")]
-    [KSPFieldDebug("LerpDamp", isPersistant = true)]
+    [KSPFieldDebug("LerpDamp")]
     public float LerpDampening = 1;
     #endregion
 
@@ -91,7 +91,7 @@ public abstract class KModuleAnimate : PartModule
     /// <summary>
     /// The Normalized Animation Time of the previous frame for interpolation purposes.
     /// </summary>
-    [KSPFieldDebug("LastNormalTime", isPersistant = true)]
+    [KSPFieldDebug("LastNormalTime")]
     protected float LastNormalTime = 0;
 
     /// <summary>
