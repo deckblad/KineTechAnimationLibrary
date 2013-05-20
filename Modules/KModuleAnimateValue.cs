@@ -44,6 +44,15 @@ public abstract class KModuleAnimateValue : KModuleAnimate
     public float MinValue = 0;
 
     /// <summary>
+    /// The animation frame for the minimum value.
+    /// </summary>
+    [KPartModuleFieldConfigurationDocumentation(
+        "0.0", 
+        "The animation frame for the minimum value.")]
+    [KSPFieldDebug("MinFrame")]
+    public float MinFrame = 0;
+
+    /// <summary>
     /// The value at which the animation will complete its interpolation. 
     /// </summary>
     [KPartModuleFieldConfigurationDocumentation(
@@ -51,6 +60,15 @@ public abstract class KModuleAnimateValue : KModuleAnimate
         "The value at which the animation will complete its interpolation.")]
     [KSPFieldDebug("Max")]
     public float MaxValue = 1;
+
+    /// <summary>
+    /// The animation frame for the maximum value.
+    /// </summary>
+    [KPartModuleFieldConfigurationDocumentation(
+        "1.0", 
+        "The animation frame for the maximum value.")]
+    [KSPFieldDebug("MaxFrame")]
+    public float MaxFrame = 1;
 
     /// <summary>
     /// When FALSE, once the animation has reached the maximum value it
@@ -86,6 +104,12 @@ public abstract class KModuleAnimateValue : KModuleAnimate
     [KSPFieldDebug("_Denominator")]
     protected float _Denominator = -1;
 
+    /// <summary>
+    /// _AnimationRange = this.MaxFrame - this.MinFrame;
+    /// </summary>
+    [KSPFieldDebug("_AnimationRange")]
+    protected float _AnimationRange = -1;
+
     #endregion
 
     #region KModuleAnimate
@@ -106,6 +130,14 @@ public abstract class KModuleAnimateValue : KModuleAnimate
             return false;
         }
 
+        _AnimationRange = MaxFrame - MinFrame;
+
+        if (_AnimationRange == 0.0)
+        {
+            LogError("(MaxFrame - MinFrame == 0) Not even the Doctor can do that!");
+            return false;
+        }
+
         return true;
     }
 
@@ -115,12 +147,17 @@ public abstract class KModuleAnimateValue : KModuleAnimate
         {
             LogError("(_Denominator == 0) Not even the Doctor can do that!");
         }
-        
+
+        if(_AnimationRange == 0)
+        {
+            LogError("(_AnimationRange == 0) Not even the Doctor can do that!");
+        }
+
         if(!CanDescendAfterMax && !IsMaxLocked)
-            IsMaxLocked = LastNormalTime >= 1.0f;
+            IsMaxLocked = LastNormalTime >= MaxFrame;
         
         if (IsMaxLocked)
-            LastNormalTime = 1.0f;
+            LastNormalTime = MaxFrame;
     }
 
     #endregion

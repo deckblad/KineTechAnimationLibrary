@@ -76,6 +76,18 @@ public abstract class KModuleAnimate : PartModule
         "\n\t//undesired playback.")]
     [KSPFieldDebug("LerpDamp")]
     public float LerpDampening = 1;
+
+    /// <summary>
+    /// The range at which interpolation starts playing at linear speed
+    /// to prevent it from taking infinite time to get to the target.
+    /// </summary>
+    [KPartModuleFieldConfigurationDocumentation(
+        "0.01",
+        "The range at which interpolation starts playing at linear speed" +
+        "\n\t//to prevent it from taking infinite time to get to the target")]
+    [KSPFieldDebug("LerpBoundary")]
+    public float LerpBoundary = 0.01f;
+
     #endregion
 
     #region Fields
@@ -134,11 +146,18 @@ public abstract class KModuleAnimate : PartModule
 
         if(UseInterpolation) //Interpolate the time.
         {
-            this.LastNormalTime =
-                        Mathf.Lerp(
-                            LastNormalTime,
-                            Mathf.Clamp01(SolveNormalTime()),
-                            Time.deltaTime * LerpDampening);
+
+            float DeltaTime = Mathf.Clamp(TimeWarp.deltaTime, 0.000000001f, 3600);
+
+            float NormalTime = Mathf.Clamp01(SolveNormalTime());
+
+            float NormalDistance = Mathf.Abs(LastNormalTime - NormalTime);
+
+            float LerpTime = (NormalDistance > LerpBoundary) ?
+                DeltaTime * LerpDampening :
+                (DeltaTime * LerpDampening) / (Mathf.Clamp(NormalDistance, 0.0000000001f, 9999999999) / LerpBoundary);
+
+            this.LastNormalTime = Mathf.Lerp(LastNormalTime, NormalTime, LerpTime);
         }
         else //Just roll with what we have.
         {

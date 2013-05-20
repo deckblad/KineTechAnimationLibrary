@@ -15,6 +15,8 @@
 /*
 /* * * * * * * * * * * * * * * */
 using System.Reflection;
+using UnityEngine;
+
 /// <summary>
 /// Value is the speed of the air flowing 
 /// into the ModuleResourceIntake on our part.
@@ -43,11 +45,11 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
     public bool RequireAtmosphericFlow = true;
 
     [KPartModuleFieldConfigurationDocumentation(
-        "0.01",
+        "0",
         "The flow value at which the Normalized Animation time will round off to zero and " +
         "\n\t//the intakes will close.")]
     [KSPFieldDebug("FlowThreshold")]
-    public float FlowThreshold = 0.01f;
+    public float FlowThreshold = 0;
 
     #endregion
 
@@ -117,15 +119,30 @@ public class KModuleAnimateAirSpeed : KModuleAnimateValue
 
     protected override float SolveNormalTime()
     {
-        float result = (float)((AirSpeed - MinValue) / _Denominator);
+        float result;
 
-        result = FlowThreshold > result ? 0 : result;
+        if (AirSpeed < MinValue)
+        {
+            result = 0f;
+        }
+        else if (AirSpeed > MaxValue)
+        {
+            result = 1f;
+        }
+        else
+        {
+            result = (float)((AirSpeed - MinValue) / _Denominator);
+        }
+
+        result = Mathf.Sign(_AnimationRange) == 1 ?
+            result * _AnimationRange + MinFrame :
+            result * _AnimationRange + MinFrame;
 
         if(result == 0f)
             return result;
 
         bool intakeOpen = ((bool)_IntakeOpen.GetValue(_Intake));
-        bool airIsFlowing = ((float)_AirFlow.GetValue(_Intake)) > 0;
+        bool airIsFlowing = ((float)_AirFlow.GetValue(_Intake)) > FlowThreshold;
 
         
 
