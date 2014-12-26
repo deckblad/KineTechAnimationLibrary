@@ -38,7 +38,7 @@ public class KModuleAnimateTargettedDistance : KModuleAnimateValue
             return LastNormalTime;
 
 
-        if(FlightGlobals.fetch.VesselTarget != this.vessel)
+        if((Vessel)FlightGlobals.fetch.VesselTarget != this.vessel)
             return 0f;
 
         Vector3 working = FlightGlobals.ActiveVessel.transform.localPosition;
